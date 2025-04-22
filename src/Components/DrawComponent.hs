@@ -34,7 +34,7 @@ drawRectangle (V2 posX posY) (width, height) mc renderer = do
     cWidth = toEnum width
     cHeight = toEnum height
 
-drawPolygon :: [(Float, Float)] -> Maybe (SDL.V4 Word8) -> DrawProcedure
+drawPolygon :: [V2 Float] -> Maybe (SDL.V4 Word8) -> DrawProcedure
 drawPolygon vertices mc renderer = do
     SDL.rendererDrawColor renderer SDL.$= color
     forM_ (zipWithOffset points) $ \(p1, p2) -> do
@@ -44,8 +44,8 @@ drawPolygon vertices mc renderer = do
     zipWithOffset [] = []
     zipWithOffset (x : xs) = zip (x : xs) (xs ++ [x])
 
-    toPoint :: (Float, Float) -> SDL.Point SDL.V2 CInt
-    toPoint (x, y) = SDL.P (SDL.V2 (floorFloat x) (floorFloat y))
+    toPoint :: V2 Float -> SDL.Point SDL.V2 CInt
+    toPoint (V2 x y) = SDL.P (SDL.V2 (floorFloat x) (floorFloat y))
 
     points = map toPoint vertices
 

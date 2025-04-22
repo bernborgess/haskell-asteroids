@@ -16,6 +16,7 @@ import Foreign.C.Types (CInt)
 
 import qualified SDL
 
+import Actors.Ship (initializeShip, newShip, shipSetPosition)
 import Game.State (
     GameData (..),
     GameProcedure,
@@ -24,12 +25,15 @@ import Game.State (
     safeRun,
     shutdown,
  )
+import Linear (V2 (..))
 
 initialGameState :: GameState
 initialGameState =
     GameState
         { gameActions = []
         , gameTicks = 0
+        , -- \* Actors
+          gameShip = newShip
         , -- \* Game Loop Methods
           gameProcessInputs = []
         , gameUpdates = []
@@ -70,6 +74,8 @@ initialize windowWidth windowHeight = do
     addClean $ SDL.destroyRenderer renderer
 
     addClean $ putStrLn "Start Cleaning"
+
+    initializeActors
 
     return GameData{gameRenderer = renderer, gameWindow = window}
 
@@ -154,3 +160,9 @@ generateOutput gameData = do
     gets gameDraws >>= traverse_ ($ renderer)
 
     SDL.present renderer
+
+initializeActors :: GameProcedure
+initializeActors = do
+    --  Instantiate the mPaddle paddle and initialize its position with the paddleSetPosition method
+    initializeShip
+    shipSetPosition $ V2 100.0 100.0

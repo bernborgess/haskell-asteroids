@@ -2,6 +2,11 @@ module Game.State (
     GameProcedure,
     GameState (..),
     GameData (..),
+    ProcessInputProcedure,
+    UpdateProcedure,
+    DrawProcedure,
+    addActor,
+    addDrawable,
     shutdown,
     addClean,
     safeRun,
@@ -16,6 +21,8 @@ import System.IO (hPrint, hPutStrLn, stderr)
 
 import qualified SDL
 
+import Actors.Types (Ship)
+
 -- | Constant values to setup the game
 data GameData = GameData
     { gameWindow :: SDL.Window
@@ -27,7 +34,8 @@ data GameState = GameState
     { gameActions :: [IO ()]
     , gameTicks :: Word32
     , -- \* Actors
-      -- \* Game Loop Methods
+      gameShip :: Ship
+    , -- \* Game Loop Methods
       gameProcessInputs :: [ProcessInputProcedure]
     , gameUpdates :: [UpdateProcedure]
     , gameDraws :: [DrawProcedure]

@@ -24,6 +24,9 @@ library
     exposed-modules:  Game
     -- other-modules:
                       Game.State
+                      Components.DrawComponent
+                      Actors.Types
+                      Actors.Ship
 
     -- To read the internal docs pass all the above to "exposed-modules" instead
     -- and run `cabal haddock --haddock-all`
